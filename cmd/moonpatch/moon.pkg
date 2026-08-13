@@ -1,5 +1,5 @@
 import {
-  "local/moonpatch" @lib,
+  "okMambaOut/moonpatch" @lib,
   "moonbitlang/core/env",
   "moonbitlang/x/sys",
 }

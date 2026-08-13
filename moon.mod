@@ -1,10 +1,10 @@
-name = "local/moonpatch"
+name = "okMambaOut/moonpatch"
 
 version = "0.1.0"
 
 readme = "README.md"
 
-repository = ""
+repository = "https://github.com/okMambaOut/moonpatch"
 
 license = "MIT"
 
