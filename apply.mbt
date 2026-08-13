@@ -384,6 +384,10 @@ pub fn PatchSet::apply(
   inventory : FileInventory,
   options? : ApplyOptions = { max_offset: 0 },
 ) -> Result[ApplyReport, Diagnostic] {
+  match self.validate() {
+    Ok(_) => ()
+    Err(error) => return Err(error)
+  }
   let working = inventory.files.copy()
   let all_hunks = []
   let mut created = 0
