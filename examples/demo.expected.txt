@@ -1,4 +1,3 @@
 demo files=1 hunks=1 additions=2 deletions=1
 updated story.txt=title\nnew ending\nepilogue\n
 reverse=verified
-
