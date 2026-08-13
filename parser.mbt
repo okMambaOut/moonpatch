@@ -198,7 +198,7 @@ fn parse_hunk(
     Ok(header) => header
     Err(error) => return Err(error)
   }
-  let changes = []
+  let changes : Array[ChangeLine] = []
   let mut index = start + 1
   while index < lines.length() {
     let line = lines[index]
@@ -218,6 +218,14 @@ fn parse_hunk(
         )
       }
       let previous = changes[changes.length() - 1]
+      if previous.no_newline {
+        return Err(
+          Diagnostic::new(
+            "patch.newline.duplicate", location, "change line has more than one no-newline marker",
+            "at most one marker", "duplicate marker",
+          ),
+        )
+      }
       changes[changes.length() - 1] = ChangeLine::new(
         previous.kind,
         previous.text,
