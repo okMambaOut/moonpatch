@@ -1,0 +1,2 @@
+patch.hunk.old_count at files[0].hunks[0]: old range count does not match hunk lines (expected 2, got 1)
+

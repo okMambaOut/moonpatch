@@ -6,7 +6,7 @@ readme = "README.md"
 
 repository = ""
 
-license = "Apache-2.0"
+license = "MIT"
 
 keywords = [ "unified-diff", "patch", "source-text", "developer-tools" ]
 

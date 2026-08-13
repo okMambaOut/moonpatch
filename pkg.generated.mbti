@@ -1,0 +1,197 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "local/moonpatch"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn create_file(String, String, options? : DiffOptions) -> Result[PatchSet, Diagnostic]
+
+pub fn delete_file(String, String, options? : DiffOptions) -> Result[PatchSet, Diagnostic]
+
+pub fn diff_file(TextFile, TextFile, options? : DiffOptions) -> Result[PatchSet, Diagnostic]
+
+pub fn diff_text(String, String, String, String, options? : DiffOptions) -> Result[PatchSet, Diagnostic]
+
+pub fn execute(Array[String]) -> CommandResult
+
+pub fn parse(String) -> Result[PatchSet, Diagnostic]
+
+// Errors
+
+// Types and methods
+pub struct AppliedHunk {
+  file_index : Int
+  hunk_index : Int
+  declared_line : Int
+  applied_line : Int
+  offset : Int
+} derive(Eq, @debug.Debug)
+pub fn AppliedHunk::applied_line(Self) -> Int
+pub fn AppliedHunk::declared_line(Self) -> Int
+pub fn AppliedHunk::file_index(Self) -> Int
+pub fn AppliedHunk::hunk_index(Self) -> Int
+pub fn AppliedHunk::offset(Self) -> Int
+
+pub struct ApplyOptions {
+  max_offset : Int
+} derive(Eq, @debug.Debug)
+pub fn ApplyOptions::max_offset(Self) -> Int
+pub fn ApplyOptions::new(max_offset? : Int) -> Result[Self, Diagnostic]
+
+pub struct ApplyReport {
+  inventory : FileInventory
+  hunks : Array[AppliedHunk]
+  files_created : Int
+  files_modified : Int
+  files_deleted : Int
+  paths_changed : Int
+  additions : Int
+  deletions : Int
+} derive(Eq, @debug.Debug)
+pub fn ApplyReport::additions(Self) -> Int
+pub fn ApplyReport::deletions(Self) -> Int
+pub fn ApplyReport::files_created(Self) -> Int
+pub fn ApplyReport::files_deleted(Self) -> Int
+pub fn ApplyReport::files_modified(Self) -> Int
+pub fn ApplyReport::hunks(Self) -> Array[AppliedHunk]
+pub fn ApplyReport::inventory(Self) -> FileInventory
+pub fn ApplyReport::paths_changed(Self) -> Int
+
+pub enum ChangeKind {
+  Context
+  Addition
+  Deletion
+} derive(Eq, @debug.Debug)
+
+pub struct ChangeLine {
+  kind : ChangeKind
+  text : String
+  no_newline : Bool
+} derive(Eq, @debug.Debug)
+pub fn ChangeLine::has_no_newline_marker(Self) -> Bool
+pub fn ChangeLine::kind(Self) -> ChangeKind
+pub fn ChangeLine::new(ChangeKind, String, no_newline? : Bool) -> Self
+pub fn ChangeLine::text(Self) -> String
+
+pub struct CommandResult {
+  exit_code : Int
+  output : String
+} derive(Eq, @debug.Debug)
+pub fn CommandResult::exit_code(Self) -> Int
+pub fn CommandResult::output(Self) -> String
+
+pub struct Diagnostic {
+  code : String
+  location : String
+  message : String
+  expected : String
+  actual : String
+} derive(Eq, @debug.Debug)
+pub fn Diagnostic::actual(Self) -> String
+pub fn Diagnostic::code(Self) -> String
+pub fn Diagnostic::expected(Self) -> String
+pub fn Diagnostic::location(Self) -> String
+pub fn Diagnostic::message(Self) -> String
+pub fn Diagnostic::new(String, String, String, String, String) -> Self
+pub fn Diagnostic::to_text(Self) -> String
+
+pub struct DiffOptions {
+  max_cells : Int
+  line_ending : LineEnding
+} derive(Eq, @debug.Debug)
+pub fn DiffOptions::line_ending(Self) -> LineEnding
+pub fn DiffOptions::max_cells(Self) -> Int
+pub fn DiffOptions::new(max_cells? : Int, line_ending? : LineEnding) -> Result[Self, Diagnostic]
+
+pub struct FileInventory {
+  files : Array[TextFile]
+} derive(Eq, @debug.Debug)
+pub fn FileInventory::files(Self) -> Array[TextFile]
+pub fn FileInventory::get(Self, String) -> TextFile?
+pub fn FileInventory::new(Array[TextFile]) -> Result[Self, Diagnostic]
+
+pub struct FilePatch {
+  old_path : String
+  new_path : String
+  old_label : String
+  new_label : String
+  hunks : Array[Hunk]
+} derive(Eq, @debug.Debug)
+pub fn FilePatch::hunks(Self) -> Array[Hunk]
+pub fn FilePatch::is_creation(Self) -> Bool
+pub fn FilePatch::is_deletion(Self) -> Bool
+pub fn FilePatch::is_path_change(Self) -> Bool
+pub fn FilePatch::new(String, String, String, String, Array[Hunk]) -> Self
+pub fn FilePatch::new_label(Self) -> String
+pub fn FilePatch::new_path(Self) -> String
+pub fn FilePatch::old_label(Self) -> String
+pub fn FilePatch::old_path(Self) -> String
+
+pub struct Hunk {
+  old_start : Int
+  old_count : Int
+  new_start : Int
+  new_count : Int
+  section : String
+  lines : Array[ChangeLine]
+} derive(Eq, @debug.Debug)
+pub fn Hunk::lines(Self) -> Array[ChangeLine]
+pub fn Hunk::new(Int, Int, Int, Int, String, Array[ChangeLine]) -> Self
+pub fn Hunk::new_count(Self) -> Int
+pub fn Hunk::new_start(Self) -> Int
+pub fn Hunk::old_count(Self) -> Int
+pub fn Hunk::old_start(Self) -> Int
+pub fn Hunk::section(Self) -> String
+
+pub enum LineEnding {
+  Lf
+  CrLf
+} derive(Eq, @debug.Debug)
+
+pub struct PatchSet {
+  files : Array[FilePatch]
+  line_ending : LineEnding
+} derive(Eq, @debug.Debug)
+pub fn PatchSet::apply(Self, FileInventory, options? : ApplyOptions) -> Result[ApplyReport, Diagnostic]
+pub fn PatchSet::files(Self) -> Array[FilePatch]
+pub fn PatchSet::line_ending(Self) -> LineEnding
+pub fn PatchSet::new(Array[FilePatch], line_ending? : LineEnding) -> Self
+pub fn PatchSet::reverse(Self) -> Self
+pub fn PatchSet::stats(Self) -> PatchStats
+pub fn PatchSet::to_unified_diff(Self) -> String
+pub fn PatchSet::validate(Self) -> Result[Unit, Diagnostic]
+
+pub struct PatchStats {
+  files : Int
+  hunks : Int
+  context_lines : Int
+  additions : Int
+  deletions : Int
+  creations : Int
+  removals : Int
+  path_changes : Int
+} derive(Eq, @debug.Debug)
+pub fn PatchStats::additions(Self) -> Int
+pub fn PatchStats::changed_lines(Self) -> Int
+pub fn PatchStats::context_lines(Self) -> Int
+pub fn PatchStats::creations(Self) -> Int
+pub fn PatchStats::deletions(Self) -> Int
+pub fn PatchStats::files(Self) -> Int
+pub fn PatchStats::hunks(Self) -> Int
+pub fn PatchStats::path_changes(Self) -> Int
+pub fn PatchStats::removals(Self) -> Int
+
+pub struct TextFile {
+  path : String
+  content : String
+} derive(Eq, @debug.Debug)
+pub fn TextFile::content(Self) -> String
+pub fn TextFile::new(String, String) -> Self
+pub fn TextFile::path(Self) -> String
+
+// Type aliases
+
+// Traits
+
